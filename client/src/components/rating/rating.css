@@ -1,0 +1,10 @@
+.rating {
+	color: #f0c040;
+}
+
+.numReview {
+	display: block;
+	color: #404040;
+	font-weight: bold;
+	padding-left: 0.5rem;
+}

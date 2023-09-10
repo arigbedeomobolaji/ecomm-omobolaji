@@ -1,0 +1,30 @@
+.alert {
+ font-size: 1.4rem;
+ border: 1px solid #414141;
+ border-radius: 0.5rem;
+ padding: 1rem;
+ background: #f7f7f7;
+ width: 90%;
+ margin: 1rem auto;
+ font-weight: 600;
+
+}
+
+.alert--success {
+ border-color: #82b882;
+ background: #a3d1a3;
+ color: #40a040;
+}
+
+.alert--danger {
+ border-color: #aa7373; 
+ background: #e7d7d7;
+ color: #a04040;
+}
+
+@media (max-width: 500px) {
+ .alert {
+  font-size: 1.2rem;
+  font-weight: 400;
+ }
+}
