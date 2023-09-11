@@ -53,9 +53,14 @@ app.use("/api/upload", uploadRouter);
 // client data
 if (process.env.NODE_ENV === "production") {
 	// set static folder
-	app.use(express.static("client/build"));
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	// app.use(express.static("client/build"));
+	// app.get("*", (req, res) => {
+	// 	res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+	// });
+	app.use(express.static(__dirname)); //here is important thing - no static directory, because all static :)
+
+	app.get("/*", function (req, res) {
+		res.sendFile(path.join(__dirname, "index.html"));
 	});
 }
 
