@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import {
 	CREATE_PRODUCT_REQUEST,
 	CREATE_PRODUCT_SUCCESS,
@@ -12,13 +12,14 @@ import {
 	EDIT_PRODUCT_REQUEST,
 	EDIT_PRODUCT_SUCCESS,
 	EDIT_PRODUCT_FAIL,
-} from '../constants/productConstant';
+} from "../constants/productConstant";
+import apiBaseUrl from "../util";
 
 export const productListAction = () => {
 	return async (dispatch) => {
 		dispatch({ type: PRODUCT_LIST_REQUEST });
 		try {
-			const { data } = await axios.get('/api/products');
+			const { data } = await axios.get(`${apiBaseUrl}/api/products`);
 			if (data) dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
 		} catch (error) {
 			dispatch({ type: PRODUCT_LIST_FAIL, payload: error.message });
@@ -51,18 +52,18 @@ export const createProductAction =
 			userSignin: { userInfo },
 		} = getState();
 		try {
-			const { data: fileData } = await axios.get('/api/upload', {
+			const { data: fileData } = await axios.get("/api/upload", {
 				headers: {
 					authorization: `Bearer ${userInfo.token}`,
 				},
 			});
 			await axios.put(fileData.url, file, {
 				headers: {
-					'Content-Type': file.type,
+					"Content-Type": file.type,
 				},
 			});
 			const { data } = await axios.post(
-				'/api/products/create',
+				"/api/products/create",
 				{
 					...productData,
 					image: fileData.key,
@@ -140,7 +141,7 @@ export const editProductAction =
 	};
 
 async function getPresignedUrl(token) {
-	const { data } = await axios.get('/api/upload', {
+	const { data } = await axios.get("/api/upload", {
 		headers: {
 			authorization: `Bearer ${token}`,
 		},
@@ -151,7 +152,7 @@ async function getPresignedUrl(token) {
 async function uploadImageToAWS(data, file) {
 	await axios.put(data.url, file, {
 		headers: {
-			'Content-Type': file.type,
+			"Content-Type": file.type,
 		},
 	});
 }
