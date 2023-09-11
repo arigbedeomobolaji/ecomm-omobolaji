@@ -31,7 +31,9 @@ export const productDetailsAction = (productId) => {
 	return async (dispatch) => {
 		dispatch({ type: PRODUCT_DETAIL_REQUEST, payload: productId });
 		try {
-			const { data } = await axios.get(`/api/products/${productId}`);
+			const { data } = await axios.get(
+				`${apiBaseUrl}/api/products/${productId}`
+			);
 			if (data) dispatch({ type: PRODUCT_DETAIL_SUCCESS, payload: data });
 		} catch (err) {
 			dispatch({
@@ -52,18 +54,21 @@ export const createProductAction =
 			userSignin: { userInfo },
 		} = getState();
 		try {
-			const { data: fileData } = await axios.get("/api/upload", {
-				headers: {
-					authorization: `Bearer ${userInfo.token}`,
-				},
-			});
+			const { data: fileData } = await axios.get(
+				`${apiBaseUrl}/api/upload`,
+				{
+					headers: {
+						authorization: `Bearer ${userInfo.token}`,
+					},
+				}
+			);
 			await axios.put(fileData.url, file, {
 				headers: {
 					"Content-Type": file.type,
 				},
 			});
 			const { data } = await axios.post(
-				"/api/products/create",
+				`${apiBaseUrl}/api/products/create`,
 				{
 					...productData,
 					image: fileData.key,
@@ -115,7 +120,7 @@ export const editProductAction =
 			}
 
 			const { data } = await axios.put(
-				`/api/products/${productId}`,
+				`${apiBaseUrl}/api/products/${productId}`,
 				{
 					...update,
 					image: fileOneData && fileOneData.key,
@@ -141,7 +146,7 @@ export const editProductAction =
 	};
 
 async function getPresignedUrl(token) {
-	const { data } = await axios.get("/api/upload", {
+	const { data } = await axios.get(`${apiBaseUrl}/api/upload`, {
 		headers: {
 			authorization: `Bearer ${token}`,
 		},

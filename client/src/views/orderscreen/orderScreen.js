@@ -9,6 +9,7 @@ import { orderDetailsAction, orderPayAction } from "../../actions/orderActions";
 import MessageBox from "../../components/messagebox/MessageBox";
 import LoadingBox from "../../components/loadingbox/LoadingBox";
 import { ORDER_PAY_RESET } from "../../constants/orderConstants";
+import apiBaseUrl from "../../util";
 
 const OrderScreen = (props) => {
 	const orderId = props.match.params.id;
@@ -48,7 +49,9 @@ const OrderScreen = (props) => {
 	// Fetch Order from database
 	useEffect(() => {
 		const fetchPaystackData = async () => {
-			const { data } = await axios.get("/api/config/paystack");
+			const { data } = await axios.get(
+				`${apiBaseUrl}/api/config/paystack`
+			);
 			if (data) {
 				setPublicKey(data);
 			}

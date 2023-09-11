@@ -11,7 +11,7 @@ export const updateData = (original, comparator) => {
 let apiBaseUrl;
 
 if (process.env.NODE_ENV === "production") {
-	apiBaseUrl = `https://ecomm-omobolaji.vercel.app`;
+	apiBaseUrl = `https://ecomm-omobolaji-backend.vercel.app`;
 } else {
 	apiBaseUrl = "";
 }
