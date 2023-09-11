@@ -1,9 +1,9 @@
 import prod from "./prod.js";
-import dev from "./dev.js";
 
 let keys;
 
 if (process.env.NODE_ENV !== "production") {
+	const dev = require("./dev.js");
 	keys = dev;
 }
 
