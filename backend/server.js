@@ -4,6 +4,7 @@ dotenv.config();
 import path from "path";
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import userRouter from "./router/userRouter.js";
 import productRouter from "./router/productRouter.js";
 import orderRouter from "./router/orderRouter.js";
@@ -16,6 +17,8 @@ const dbURL = keys.MONGO_URI;
 // app setting middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.static("public"));
 
 const startServer = async () => {
 	try {
@@ -33,19 +36,19 @@ const startServer = async () => {
 
 startServer();
 
-// web app backend router handlers
-app.use("/api/products", productRouter);
-app.use("/api/users", userRouter);
-app.use("/api/orders", orderRouter);
-app.use("/api/upload", uploadRouter);
+app.get("/", (req, res) => {
+	res.send({ message: "Welcome Let's code" });
+});
 
 app.get("/api/config/paystack", (req, res) => {
 	res.send(keys.PAYSTACK_CLIENTID || "paystack_test");
 });
 
-app.get("/", (req, res) => {
-	res.send({ message: "Welcome Let's code" });
-});
+// web app backend router handlers
+app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/upload", uploadRouter);
 
 // client data
 if (process.env.NODE_ENV === "production") {
@@ -60,3 +63,5 @@ if (process.env.NODE_ENV === "production") {
 app.use((err, req, res, next) => {
 	res.status(500).send({ message: err.message });
 });
+
+module.exports = app;
